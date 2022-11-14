@@ -21,15 +21,19 @@ Sustain-table makes use of numerous datasets:
 *  **Carbon equivalents.** In order to calculate carbon emissions of recipes, I have taken estimated carbon equivalents of common food products from the academic literature. For further information on the data sources and how I prepared the data, see the [carbon_equivalents](https://github.com/DJRdatascience/sustain-table/tree/main/carbon_equivalents) folder.
 *  **Mass converstion.** Most (American) recipes give ingredient measuremets by volume. Volume-to-mass converstions were carried out using estimated densities of common food products, see the [mass_conversion](https://github.com/DJRdatascience/sustain-table/tree/main/mass_conversion) folder.
 
-### 3. A demonstration of the following:
+### 3. Visualizations.
 
-#### 3a. Machine learning
+Data visualizations will be included here when complete.
+
+### 4. A demonstration of the following:
+
+#### 4a. Machine learning
 
 A key component of Sustain-table is an ingredient substitution model that provides users with intelligent ingredient substitution options in order to lower the carbon emissions of their grocery shopping lists. The current implementation of this model is an expert model, which provides recommended food substitutions for >1k ingredients using expert recommendations from [The Cook's Thesaurus](http://www.foodsubs.com/). I am actively working to incorporate  a machine learning model (word2vec) that provides substitution options for ingredients not in the expert database. Further information on the model can be folder in the [ml-substitutions](https://github.com/DJRdatascience/sustain-table/tree/main/ml_substitutions) folder.
 
-#### 3b. An interactive website
+#### 4b. An interactive website
 
 Sustain-table is an interative website built using Flask and SQLAlchemy. The website has not yet launched online. You can find the web application, which can be run locally, in the [app](https://github.com/DJRdatascience/sustain-table/tree/main/app) folder.
 
-### 4. A deliverable
+### 5. A deliverable
 The final deliverable for this project will be this GitHub repository and a live website.
