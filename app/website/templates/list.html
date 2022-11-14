@@ -1,0 +1,108 @@
+{% extends "base.html" %} {% block title %}Grocery List{% endblock %} {% block content
+    %}
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" 
+    integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+  -->
+    <div class="container table-responsive" style="width: 60%">          
+    <br>
+    <div align="center">
+        <h2>My Grocery List</h2>
+        <h5>{{carbon[0]}}
+            {% if not carbon[0]==carbon[1] %}
+                <span style="color: #17a2b8;">&#x2192; {{carbon[1]}}</span>
+            {% endif %}
+            kg CO<sub>2</sub>
+        </h5>
+        {% if not sub %}
+            <div align="center">
+                <form method="POST">
+                    <button type="submit"  name="cl_button" value="sub_init" class="btn btn-primary" style="background-color: #60BD69; border: none;">
+                        <span>Lower CO<sub>2</sub></span>
+                    </button>
+                </form>
+            </div>
+        {% else %}
+            <div align="center">
+                <form method="POST">
+                    <button type="submit" class="btn btn-primary" style="background-color: #17a2b8; border: none;">
+                        <span>Substitute</sub></span>
+                    </button>
+                </form>
+            </div>
+        {% endif %}
+        <br>
+    </div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th class="task-id">Item</th>
+            {% if sub %}
+                <th class="sub">Sub</th>
+                <th class="carbon">CO<sub>2</sub>*</th>
+            {% endif %}
+            <th class="task">Quantity</th>
+            <th class="status">Unit</th>
+            <th class="update">Remove</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for item in groceries %}
+            <tr>
+                <td><button type="button" class="btn btn-outline-secondary btn-sm state" data-source="{{item.name}}">{{item.name}}</button></td>
+                {% if sub %}
+                    {% if not item.substitute_name == '' %}
+                        {% if not item.id in substitutes %}
+                            <form method="POST">
+                                <td><button type="submit" name="sub_button" value="{{item.id}}" class="btn btn-outline-info btn-sm state">{{item.substitute_name}}</button></td>
+                            </form>
+                        {% else %}
+                            <form method="Post">
+                                <td><button type="submit" name="sub_button" value = "{{item.id}}" class="btn btn-outline-info btn-sm state active">{{item.substitute_name}}</button></td>
+                            </form>
+                        {% endif %}
+                        <td>{{item.carbon}} <span style="color:#17a2b8">&#x2192; {{item.substitute_carbon}}</span></td>
+                    {% else %}
+                        <td></td>
+                        <td>{{item.carbon}}</td>
+                    {% endif %}
+                {% endif %}
+                <td>{{item.quantity}}</td>
+                <td>{{item.unit}}</td>
+                <!--<td><button type="button" class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#task-modal" data-source="{{item.name}}" data-content="{{item.name}}"><i class="fa fa-pen fa-1" aria-hidden="true"></i></button></td>-->
+                <td><button class="btn btn-outline-secondary btn-sm remove" data-source="{{item.name}}" type="button"><i class="fa fa-check fa-1" aria-hidden="true"></i></button></td>
+                <!--{% if "" == "In Progress" %}
+                    <td><button type="button" class="btn btn-outline-warning btn-sm state" data-source="{{item.name}}">{{item.name}}</button></td>
+                {%endif%}
+                {% if "Todo" == "Todo" %}
+                    <td><button type="button" class="btn btn-outline-secondary btn-sm state" data-source="{{item.name}}">{{item.name}}</button></td>
+                {%endif%}
+                {% if "" == "Complete" %}
+                    <td><button type="button" class="btn btn-outline-success btn-sm state" data-source="{{item.name}}">{{item.name}}</button></td>
+                {%endif%}-->
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    
+    {% if sub %}
+        <br>
+        *CO<sub>2</sub> is the kilograms of <a href="https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Glossary:Carbon_dioxide_equivalent" target="_blank">CO<sub>2</sub>-equivalents</a> calculated by mass.
+    {% endif %}
+
+    </div>
+    {% endblock %}
+    
+    <!-- <script> This is to have a popup - see https://stackoverflow.com/questions/66310336/how-to-print-the-output-of-flask-function-in-a-pop-up-box-in-html
+      function submit() {
+          var xhr = new XMLHttpRequest();
+          xhr.open("POST", "/predict"); 
+          xhr.onload = function(event){ 
+              alert("Success, server responded with: " + event.target.response); // raw response in alert popup
+              document.getElementById("predict_content").innerHTML = event.target.response; // set content of the div with id "predict_content" to the server response.
+          }; 
+          // or onerror, onabort
+          var formData = new FormData(document.getElementById("myForm")); 
+          xhr.send(formData);
+      }
+      </script> -->

@@ -1,0 +1,28 @@
+{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
+%}
+<div align="middle" style="padding: 10% 0% 5% 0%;">
+  <img src="{{url_for('static', filename='images/main/color_logo_nobkgd.png')}}" width="40%" />
+</div>
+<form method="POST">
+  <textarea onkeydown="if (event.keyCode == 13) { this.form.submit(); return false; }" name="Recipe" style="resize: none; text-align:center; height:40px; border-style: solid; outline-color: black" id="Recipe" class="form-control" placeholder="Enter recipe url"></textarea>
+  <br />
+  <div align="center">
+    <button type="submit" class="btn btn-primary" style="background-color: #60BD69; border: none;">Add to Repertoire</button>
+  </div>
+</form>
+
+<!-- <script> This is to have a popup - see https://stackoverflow.com/questions/66310336/how-to-print-the-output-of-flask-function-in-a-pop-up-box-in-html
+  function submit() {
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", "/predict"); 
+      xhr.onload = function(event){ 
+          alert("Success, server responded with: " + event.target.response); // raw response in alert popup
+          document.getElementById("predict_content").innerHTML = event.target.response; // set content of the div with id "predict_content" to the server response.
+      }; 
+      // or onerror, onabort
+      var formData = new FormData(document.getElementById("myForm")); 
+      xhr.send(formData);
+  }
+  </script> -->
+
+{% endblock %}

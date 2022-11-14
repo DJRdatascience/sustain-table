@@ -1,0 +1,42 @@
+{% extends "base.html" %} {% block title %}Grocery List{% endblock %} {% block content
+    %}
+    <ul class="list-group list-group-flush" id="meals">
+        {% for recipe in user.mealplan %}
+        <li class="list-group-item">
+            <div style="width: 1000px; height: 20%;" >
+                <div>
+                    <button style="border: none; color:white ;background-color: #60BD69; width:65px; border-radius: 10px; margin: 0px 20px 0px 0px;float:left; position: relative; text-align: center; transform: translateY(100%);" type="button" onClick="addRecipe({{ recipe.id }})">
+                        <span>Add<br>to list</span>
+                    </button>
+                </div>
+                    <img style="width: 25%;float:left; margin: 0px 20px 0px 0px" src={{recipe.img_url}}></img>
+                    <div style="float:left;text-align: left;transform: translateY(50%);">
+                        <p style="font-size: x-large;">{{ recipe.name }}</p>
+                        <button style="border: none; color:white ;background-color: dimgray; width:80px; border-radius: 10px; margin: 0px 0px 0px 0px; " type="button">
+                            <span>Low CO<sub>2</sub></span>
+                        </button>
+                    </div>
+                <button type="button" class="close" onClick="deleteRecipe({{ recipe.id }})">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+    {% endblock %}
+    
+    <!-- <script> This is to have a popup - see https://stackoverflow.com/questions/66310336/how-to-print-the-output-of-flask-function-in-a-pop-up-box-in-html
+      function submit() {
+          var xhr = new XMLHttpRequest();
+          xhr.open("POST", "/predict"); 
+          xhr.onload = function(event){ 
+              alert("Success, server responded with: " + event.target.response); // raw response in alert popup
+              document.getElementById("predict_content").innerHTML = event.target.response; // set content of the div with id "predict_content" to the server response.
+          }; 
+          // or onerror, onabort
+          var formData = new FormData(document.getElementById("myForm")); 
+          xhr.send(formData);
+      }
+      </script> -->
+    
+    {% endblock %}

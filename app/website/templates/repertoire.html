@@ -1,0 +1,31 @@
+{% extends "base.html" %} {% block title %}Repertoire{% endblock %} {% block content %}
+<ul class="list-group list-group-flush" id="recipes">
+    {% for rep in user.repertoire %}
+    <li class="list-group-item">
+        <div style="width: 1000px; height: 20%;" >
+            <div>
+                <button style="border: none; color:white ;background-color: #60BD69; width:65px; border-radius: 10px; margin: 0px 20px 0px 0px;float:left; position: relative; text-align: center; transform: translateY(100%);" type="button" onClick="addRecipe({{ rep.recipe.id }})">
+                    <span>Add<br>to list</span>
+                </button>
+            </div>
+                <img style="width: 25%;float:left; margin: 0px 20px 0px 0px" src={{rep.recipe.img_url}}></img>
+                <div style="float:left;text-align: left;transform: translateY(50%);">
+                    <p style="font-size: x-large;">{{ rep.recipe.name }}</p>
+                    {% if rep.recipe.name == "Tomato and Sausage Risotto" %}
+                        <button style="border: none; color:white ;background-color: rgb(71, 71, 71); width:80px; border-radius: 10px; margin: 0px 0px 0px 0px; " type="button">
+                            <span>Med CO<sub>2</sub></span>
+                        </button>
+                    {% else %}
+                        <button style="border: none; color:white ;background-color: dimgray; width:80px; border-radius: 10px; margin: 0px 0px 0px 0px; " type="button">
+                            <span>Low CO<sub>2</sub></span>
+                        </button>
+                    {% endif %}
+                </div>
+            <button type="button" class="close" onClick="deleteRecipe({{ rep.recipe.id }})">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}
