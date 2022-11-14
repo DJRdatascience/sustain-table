@@ -16,7 +16,7 @@ The platform is for anyone who regularly cooks and wants to reduce their carbon 
 ### 2. Data ingestion.
 
 Sustain-table makes use of numerous datasets:
-* **Expert substitution dataset.** The ingredient substition model (still under development) is a hybrid expert-ML model. The expert recommendations come from data scraped from [The Cook's Thesaurus](http://www.foodsubs.com/). The data were scraped and processing using a [algorithms]() I developed.
+* **Expert substitution dataset.** The ingredient substition model (still under development) is a hybrid expert-ML model. The expert recommendations come from data scraped from [The Cook's Thesaurus](http://www.foodsubs.com/). The data were scraped and processing using [algorithms]() I developed.
 *  **Recipe dataset.** The machine learning component of the ingredient substition model is currently under development. Initially, I have been working with the [Recipe1M+ dataset](http://pic2recipe.csail.mit.edu/), and I am currently evaluating whether this needs to be modified or expanded upon.
 *  **Carbon equivalents.** In order to calculate carbon emissions of recipes, I have taken estimated carbon equivalents of common food products from the academic literature. For further information on the data sources and how I prepared the data, see [this]() folder.
 *  **Mass converstion.** Most (American) recipes give ingredient measuremets by volume. Volume-to-mass converstions were carried out using estimated densities of common food products, see [this]() folder.
