@@ -23,7 +23,7 @@ Sustain-table makes use of numerous datasets:
 
 ### 3. Visualizations.
 
-Data visualizations will be included here when complete.
+Two visualizations were made for this project. These can be found in the [Cook's Thesaurus exploratory data analysis notebook](https://github.com/DJRdatascience/sustain-table/blob/main/expert_substitutions/eda_cooks_thesaurus.ipynb).
 
 ### 4. A demonstration of the following:
 
