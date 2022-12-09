@@ -4,3 +4,6 @@ __pycache__/
 local/
 app/venv/
 app/instance/
+app/local/
+ml_substitutions/data/recipe1M_layer1.json
+ml_substitutions/data/reduced_ingredients.pkl

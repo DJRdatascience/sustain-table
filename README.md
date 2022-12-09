@@ -29,7 +29,7 @@ Two visualizations were made for this project. These can be found in the [Cook's
 
 #### 4a. Machine learning
 
-A key component of Sustain-table is an ingredient substitution model that provides users with intelligent ingredient substitution options in order to lower the carbon emissions of their grocery shopping lists. The current implementation of this model is an expert model, which provides recommended food substitutions for >1k ingredients using expert recommendations from [The Cook's Thesaurus](http://www.foodsubs.com/). I am actively working to incorporate  a machine learning model (word2vec) that provides substitution options for ingredients not in the expert database. Further information on the model can be folder in the [ml-substitutions](https://github.com/DJRdatascience/sustain-table/tree/main/ml_substitutions) folder.
+A key component of Sustain-table is an ingredient substitution model that provides users with intelligent ingredient substitution options in order to lower the carbon emissions of their grocery shopping lists. Substitions are generated using a hybrid expert-ml model. The expert model is built using recommended food substitutions for >1k ingredients from [The Cook's Thesaurus](http://www.foodsubs.com/). When an ingredient is not found in the expert model, substitution suggestions are generated using the machine learning model. The model was built using word2vec. It has components of deep learning (i.e., neural networks) and unsupervised machine learning (i.e., the word2vec algorithm is unsupervised). More information can be found in the [ml-substitutions](https://github.com/DJRdatascience/sustain-table/tree/main/ml_substitutions) folder.
 
 #### 4b. An interactive website
 

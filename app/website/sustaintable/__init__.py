@@ -1,23 +1,11 @@
+from pathlib import Path
 import pickle
 import datetime
+import csv
 from collections import defaultdict
 from nltk.stem import WordNetLemmatizer
 lemmatizer = WordNetLemmatizer()
 from . import website_parsers as wp
-
-calculate_co2 = {
-    'diced tomatoes in juice': 1.1,
-    'olive oil': 1.63,
-    'hot italian sausage': 6.87,
-    'small onion': 0.39,
-    'arborio rice': 1.14,
-    'dry white wine': 1.28,
-    'flat-leaf spinach': 0.13,
-    'grated parmesan cheese': 9.78,
-    'butter': 11.92,
-    '': 0
-}
-
 
 def _get_ghg( item: str, mass: float ) -> float:
     #lem = lemmatizer.lemmatize( item )
@@ -25,10 +13,9 @@ def _get_ghg( item: str, mass: float ) -> float:
     #return ghg_equivalents[ name_key ] ###### Build
     item = item.lower()
     if item in calculate_co2:
-        out = calculate_co2[item]*mass
+        return calculate_co2[item]*mass
     else:
-        out = 0
-    return out
+        return 0.1 * mass
 
 class CustomDict( dict ):
     def __init__(self, factory, dict={}):
@@ -95,15 +82,52 @@ class ShoppingList():
     def substitute( self, ingred, ingred_sub ):
         pass
 
+# Load in named ingredients
+path = Path(__file__).parent / 'data/named_ingredients.pkl'
+with path.open('rb') as f:
+    named_ingredients = pickle.load( f )
+
 # Load in Cooks Thesaurus and setup dictionaries
-# with open( 'data/cooks_thesaurus.pkl', 'rb' ) as f:
-#     cooks_thesaurus = pickle.load( f )
-# cooks_thesaurus['name_key'] = CustomDict( function, cooks_thesaurus['name_key'] )
-# cooks_thesaurus['common_name'] = CustomDict( function, cooks_thesaurus['common_name'] )
-# cooks_thesaurus['substitute'] = CustomDict( function, cooks_thesaurus['substitute'] )
+path = Path(__file__).parent / 'data/cooks_thesaurus_dict.pkl'
+with path.open('rb') as f:
+    cooks_thesaurus = pickle.load( f )
+cooks_thesaurus['key'] = CustomDict( lambda x: x, cooks_thesaurus['key'] )
+cooks_thesaurus['common'] = CustomDict( lambda x: x, cooks_thesaurus['common'] )
+cooks_thesaurus['subs'] = CustomDict( lambda x: [], cooks_thesaurus['subs'] )
 
-# with open( 'data/ghg_equivalents.pkl', 'rb' ) as f:
-#     ghg_equivalents = pickle.load( f )
+# Load in cached word2vec substitutions
+path = Path(__file__).parent / 'ml_substitutions.pkl'
+with path.open('rb') as f:
+    ml_substitutions = pickle.load( f )
 
-cooks_thesaurus = defaultdict(lambda:'lemon')
-ghg_equivalents = defaultdict(lambda:2)
+def get_subs( ingred: str ) -> list:
+    lem = lemmatizer.lemmatize( ingred )
+    key = cooks_thesaurus['key'][ lem ]
+    # We only use the ml subtitutions if the ingredient is not in the expert model
+    if key not in cooks_thesaurus['subs'] and ingred in ml_substitutions:
+        return ml_substitutions[ingred]
+    else: # This returns the expert subtitutions or, if the ingred is missing, an empty list
+        return cooks_thesaurus['subs'][ key ]
+
+# Load in green house gas equivalents
+path = Path(__file__).parent / 'data/ghg_equivalents.csv'
+calculate_co2 = {
+    'diced tomatoes in juice': 1.1,
+    'olive oil': 1.63,
+    'hot italian sausage': 6.87,
+    'small onion': 0.39,
+    'arborio rice': 1.14,
+    'dry white wine': 1.28,
+    'flat-leaf spinach': 0.13,
+    'grated parmesan cheese': 9.78,
+    'butter': 11.92,
+    '': 0
+}
+with path.open('r') as f:
+    reader = csv.reader( f )
+    flag = 0
+    for row in reader:
+        if flag == 0:
+            flag = 1
+        elif '' not in row[:2]:
+            calculate_co2[row[0]] = float(row[1])

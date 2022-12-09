@@ -4,10 +4,10 @@ from urllib.parse import urlparse
 from parse_ingredients import parse_ingredient as parse_ingred
 
 # Alternate scrapping approach using scrape_me
-#from recipe_scrapers import scrape_me
-import sys
-sys.path.insert(0, '/Users/djr/Documents/python/projects/forks/recipe-scrapers')
 from recipe_scrapers import scrape_me
+# import sys
+# sys.path.insert(0, '/Users/djr/Documents/python/projects/forks/recipe-scrapers')
+# from recipe_scrapers import scrape_me
 
 
 # This is to deal with parse_ingredients printing annoying updates

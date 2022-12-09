@@ -100,7 +100,7 @@ def list():
     ghg = 0
     for meal in meals.all()[-1:]:
         ghg += meal.ghg
-        print('1')
+    ghg = round( ghg, 2 )
     carbon = [ghg,ghg]
     groceries = (   GroceryList.query
                                 .filter( GroceryList.user_id == current_user.id )
@@ -128,7 +128,7 @@ def list():
                                         sub             = gl_sub
                                 )
                 db.session.add( new_sub )
-                carbon[1] = round(carbon[1]-6.87+0.9,2)
+                carbon[1] = round( carbon[1] - 0, 2 )
             else:
                 in_sub.delete()
                 carbon[1] = carbon[0]
@@ -162,12 +162,17 @@ def add_recipe():
         shopping_list = []
         for ingred in ingredients:
             ip = db.session.query(IngredProp.name).filter_by(id=ingred.ingredprop_id).first()[0]
-            if ip == 'hot italian sausage':
-                substitute = 2
-            else:
-                substitute = 1
+            substitutes = st.get_subs( ip )
+            found_sub = ''
+            for sub in substitutes:
+                sub_query = db.session.query(IngredProp.name).filter_by(name=sub).first()
+                if sub_query:
+                    found_sub = sub_query[0]
+                    break
+            print( type(found_sub) )
+            sub_id = db.session.query(IngredProp.id).filter_by(name=found_sub).first()[0]
             sl =  GroceryList(  ingred_id       = ingred.id,
-                                substitute_id   = substitute,
+                                substitute_id   = sub_id,
                                 recipe_id       = recipe.id,
                                 user_id         = current_user.id
             )
